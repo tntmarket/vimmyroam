@@ -53,6 +53,12 @@
                 simulateClick(lastFocusedSideBlock.querySelector(SELECTOR.block), false);
             }
         }],
+        ['e', () => {
+            const targets = targetElements(SELECTOR.block, 'block')
+                .concat(targetElements(SELECTOR.title, 'title'));
+
+            hintTargets(targets);
+        }],
         ['f', () => {
             const targets = targetElements(SELECTOR.link, 'link')
                 .concat(targetElements(SELECTOR.block, 'block'))
@@ -60,38 +66,7 @@
                 .concat(targetElements('a', 'anchor'))
                 .concat(targetElements(SELECTOR.button, 'button'));
 
-            const hintKeys = getHintKeys(targets.length);
-            // zip hintKeys with targets
-            const hintToTarget = targets.map((target, i) => [hintKeys[i], target]);
-
-            hintToTarget.forEach(([hint, { element, type }]) => {
-                showHint(element, hint, type);
-            });
-
-            applyKeyMap(
-                new Map(hintToTarget.map(([hint, { element, type }]) => [
-                    hint,
-                    ({ shiftKey }) => {
-                        if (type === 'anchor') {
-                            // Need to click on child of 'a' to bubble up
-                            simulateClick(element.firstChild, shiftKey);
-                        } else {
-                            simulateClick(element, shiftKey);
-                        }
-                        exitHintMode();
-                    },
-                ])),
-                'HINT',
-                {
-                    caseSensitive: false,
-                    defaultHandler: (event) => {
-                        if (event.key === 'Escape') {
-                            exitHintMode();
-                        }
-                    },
-                },
-            );
-            hotkeys.setScope('HINT');
+            hintTargets(targets);
         }],
     ]);
 
@@ -99,6 +74,41 @@
         .from($$(selector))
         .filter(isElementVisible)
         .map(element => ({ element, type }));
+
+    const hintTargets = (targets) => {
+        const hintKeys = getHintKeys(targets.length);
+        // zip hintKeys with targets
+        const hintToTarget = targets.map((target, i) => [hintKeys[i], target]);
+
+        hintToTarget.forEach(([hint, { element, type }]) => {
+            showHint(element, hint, type);
+        });
+
+        applyKeyMap(
+            new Map(hintToTarget.map(([hint, { element, type }]) => [
+                hint,
+                ({ shiftKey }) => {
+                    if (type === 'anchor') {
+                        // Need to click on child of 'a' to bubble up
+                        simulateClick(element.firstChild, shiftKey);
+                    } else {
+                        simulateClick(element, shiftKey);
+                    }
+                    exitHintMode();
+                },
+            ])),
+            'HINT',
+            {
+                caseSensitive: false,
+                defaultHandler: (event) => {
+                    if (event.key === 'Escape') {
+                        exitHintMode();
+                    }
+                },
+            },
+        );
+        hotkeys.setScope('HINT');
+    };
 
     const getHintKeys = (numberOfHints) => {
         if (numberOfHints <= HINT_KEYS.length) {
@@ -307,6 +317,9 @@
     });
 
     const isElementVisible = (element) => {
+        if (!element) {
+            return false;
+        }
         const { x, y } = getScreenXY(element);
         return x >= 0 && y >= 0 && x <= window.innerWidth && y <= window.innerHeight;
     };
