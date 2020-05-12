@@ -44,9 +44,11 @@
         }],
         // Navigation
         ['h', () => {
+            lastFocusedMainBlock = lastFocusedMainBlock || $(SELECTOR.article);
             simulateClick(lastFocusedMainBlock.querySelector(SELECTOR.block), false);
         }],
         ['l', () => {
+            lastFocusedSideBlock = lastFocusedSideBlock || $(SELECTOR.sidebar) || $(SELECTOR.article);
             simulateClick(lastFocusedSideBlock.querySelector(SELECTOR.block), false);
         }],
         ['f', () => {
