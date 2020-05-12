@@ -48,8 +48,10 @@
             simulateClick(lastFocusedMainBlock.querySelector(SELECTOR.block), false);
         }],
         ['l', () => {
-            lastFocusedSideBlock = lastFocusedSideBlock || $(SELECTOR.sidebar) || $(SELECTOR.article);
-            simulateClick(lastFocusedSideBlock.querySelector(SELECTOR.block), false);
+            lastFocusedSideBlock = lastFocusedSideBlock || $(SELECTOR.sidebar);
+            if (lastFocusedSideBlock) {
+                simulateClick(lastFocusedSideBlock.querySelector(SELECTOR.block), false);
+            }
         }],
         ['f', () => {
             const links = Array
