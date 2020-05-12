@@ -1,6 +1,5 @@
 # vimmyroam
 
-
 The goal of this project is to be able to use Roam with only a keyboard.
 
 ![](demo.gif)
@@ -26,7 +25,7 @@ Disclaimer: Does not include warranty
 | Click Something | f |
 | Unfocus | Esc |
 
-## Click Something
+### Click Something
 
 Hit "f" to see various hovering hint bubbles. Type the hint next to an element to simulate clicking it.
 
@@ -48,3 +47,8 @@ Holding shift as you type the hint opens it in the side bar.
 | Open menu for block | None |
 | Graph Overview | None |
 | All Pages | None |
+
+
+## Why doesn't Vimium Work?
+
+Vimium doesn't work because Roam blocks don't actually show the textarea until you click on it. vimmyroam simulates actual mouse clicks/hovers to get the text area to show up.
