@@ -54,41 +54,11 @@
             }
         }],
         ['f', () => {
-            const links = Array
-                .from($$(SELECTOR.link))
-                .filter(isElementVisible)
-                .map(element => ({ element, type: 'link' }));
-            const blocks = Array
-                .from($$(SELECTOR.block))
-                .filter(isElementVisible)
-                .map(element => ({ element, type: 'block' }));
-            const titles = Array
-                .from($$(SELECTOR.title))
-                .filter(isElementVisible)
-                .map(element => ({ element, type: 'title' }));
-            const anchors = Array
-                .from($$('a'))
-                .filter(isElementVisible)
-                .map(element => ({
-                    // Need to click on child of 'a' to bubble up
-                    element: element.firstChild || element,
-                    type: 'anchor'
-                 }));
-            const buttons = Array
-                .from($$(SELECTOR.button))
-                .filter(isElementVisible)
-                .map(element => ({
-                    // Need to click on child of 'a' to bubble up
-                    element,
-                    type: 'button'
-                 }));
-
-
-            const targets = links
-                .concat(blocks)
-                .concat(titles)
-                .concat(anchors)
-                .concat(buttons);
+            const targets = targetElements(SELECTOR.link, 'link')
+                .concat(targetElements(SELECTOR.block, 'block'))
+                .concat(targetElements(SELECTOR.title, 'title'))
+                .concat(targetElements('a', 'anchor'))
+                .concat(targetElements(SELECTOR.button, 'button'));
 
             const hintKeys = getHintKeys(targets.length);
             // zip hintKeys with targets
@@ -99,10 +69,15 @@
             });
 
             applyKeyMap(
-                new Map(hintToTarget.map(([hint, { element }]) => [
+                new Map(hintToTarget.map(([hint, { element, type }]) => [
                     hint,
                     ({ shiftKey }) => {
-                        simulateClick(element, shiftKey);
+                        if (type === 'anchor') {
+                            // Need to click on child of 'a' to bubble up
+                            simulateClick(element.firstChild, shiftKey);
+                        } else {
+                            simulateClick(element, shiftKey);
+                        }
                         exitHintMode();
                     },
                 ])),
@@ -119,6 +94,11 @@
             hotkeys.setScope('HINT');
         }],
     ]);
+
+    const targetElements = (selector, type) => Array
+        .from($$(selector))
+        .filter(isElementVisible)
+        .map(element => ({ element, type }));
 
     const getHintKeys = (numberOfHints) => {
         if (numberOfHints <= HINT_KEYS.length) {
