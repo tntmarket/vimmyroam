@@ -1,3 +1,8 @@
+# Alternatives
+
+https://github.com/roam-unofficial/roam-toolkit is being actively developed, and will probably obsolete this at some point.
+
+
 # vimmyroam
 
 The goal of this project is to be able to use Roam with only a keyboard.
