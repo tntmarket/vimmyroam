@@ -11,6 +11,8 @@ The goal of this project is to be able to use Roam with only a keyboard.
 2. Create a new tampermonkey script
 3. Paste the contents of [vimmyroam.js](https://raw.githubusercontent.com/tntmarket/vimmyroam/master/vimmyroam.js) into the tampermonkey editor
 
+Disclaimer: Does not include warranty
+
 ## Key Bindings
 
 | Command | Hotkey |
