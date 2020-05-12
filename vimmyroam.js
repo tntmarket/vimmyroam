@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         vim-roam
+// @name         vimmyroam
 // @namespace    https://roamresearch.com
 // @version      0.1
-// @description  try to take over the world!
-// @author       You
+// @description  Vim like keybindings for roam
+// @author       Dave Lu
 // @match        https://roamresearch.com/*
 // @grant        none
 // @require      https://cdn.jsdelivr.net/npm/hotkeys-js@3.7.3/dist/hotkeys.min.js
@@ -43,6 +43,12 @@
             scrollingElement().scrollTop = scrollingElement().scrollHeight;
         }],
         // Navigation
+        ['h', () => {
+            simulateClick(lastFocusedMainBlock.querySelector(SELECTOR.block), false);
+        }],
+        ['l', () => {
+            simulateClick(lastFocusedSideBlock.querySelector(SELECTOR.block), false);
+        }],
         ['f', () => {
             const links = Array
                 .from($$(SELECTOR.link))
@@ -91,7 +97,7 @@
             applyKeyMap(
                 new Map(hintToTarget.map(([hint, { element }]) => [
                     hint,
-                    (shiftKey) => {
+                    ({ shiftKey }) => {
                         simulateClick(element, shiftKey);
                         exitHintMode();
                     },
@@ -99,7 +105,7 @@
                 'HINT',
                 {
                     caseSensitive: false,
-                    defaultHandler: (event, hotkey) => {
+                    defaultHandler: (event) => {
                         if (event.key === 'Escape') {
                             exitHintMode();
                         }
@@ -127,11 +133,11 @@
                         return [prefix];
                     }
                     return hintKeys.map(keys => keys.join(','));
-                })
+                });
 
             return trimmedHintKeys
         }
-    }
+    };
 
     const groupBy = (xs, keyFn) => xs.reduce(
         (groups, x) => {
@@ -158,7 +164,7 @@
         'h', 'g',
         // hard
         // 'q', 'w', 't', 'y', 'o', 'p', 'z', 'x', 'b', 'n', '.', '/',
-    ]
+    ];
 
     const scrollingElement = () => {
         if (focusedPanel === 'SIDEBAR') {
@@ -166,7 +172,7 @@
         }
 
         return $(SELECTOR.article).parentElement;
-    }
+    };
 
     const SELECTOR = {
         link: '.rm-page-ref',
@@ -181,7 +187,7 @@
         search: '#find-or-create-input',
         button: '.bp3-button',
         viewMore: '.roam-log-preview',
-    }
+    };
 
     // $ = document.querySelector doesn't work for some reason
     const $ = selector => document.querySelector(selector);
@@ -221,6 +227,8 @@
 
     // Scope scrolling to the focused panel
     let focusedPanel;
+    let lastFocusedMainBlock;
+    let lastFocusedSideBlock;
 
     // Change focused panel when clicking
     window.addEventListener('focus', () => {
@@ -231,8 +239,12 @@
 
         if($(SELECTOR.sidebar) && $(SELECTOR.sidebar).contains(document.activeElement)) {
             focusedPanel = 'SIDEBAR';
+            lastFocusedSideBlock = document.activeElement.closest('.roam-block-container');
+            console.log(lastFocusedSideBlock);
         } else {
             focusedPanel = 'MAIN';
+            lastFocusedMainBlock = document.activeElement.closest('.roam-block-container');
+            console.log(lastFocusedMainBlock);
         }
     }, true);
 
@@ -248,7 +260,7 @@
                 const handler = keyMap.get(lastKey + ',' + key) || keyMap.get(key);
                 lastKey = key;
                 if (handler) {
-                    handler(event.shiftKey);
+                    handler(event);
                 } else if (options.defaultHandler) {
                     options.defaultHandler(event, hotkey);
                 }
@@ -257,7 +269,7 @@
     };
     applyKeyMap(KEYMAP, 'NORMAL', {
         caseSensitive: true,
-        defaultHandler: (event, hotkey) => {
+        defaultHandler: (event) => {
             if (event.key === 'Escape') {
                 // Blur text areas and inputs
                 document.activeElement.blur();
@@ -270,9 +282,9 @@
         if (event.key === 'Escape') {
             return true;
         }
-        const tagName = (event.target || event.srcElement).tagName;
+        const tagName = event.target.tagName;
         return !(tagName.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
-    }
+    };
     hotkeys.setScope('NORMAL');
 
     const escapePixel = document.createElement('div');
@@ -302,7 +314,6 @@
             waitForLoad.disconnect();
             document.body.appendChild(hintOverlay);
             document.body.appendChild(escapePixel);
-            return;
         }
     });
     waitForLoad.observe($('#app'), {
