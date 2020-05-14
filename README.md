@@ -53,11 +53,11 @@ To develop a tampermonkey script using your IDE, use the `// @require file:///pa
 | Focus title | Dedicated shortcut for focusing the title |
 | Hide unreachable hints after keystrokes | None |
  
-# Other Cool Projects
+# Other People's Roam Customizations
 
-## Roam Toolkit
-
-[roam-toolkit](https://github.com/roam-unofficial/roam-toolkit) is being actively developed. Integration is under investigation ([#2](https://github.com/tntmarket/vimmyroam/issues/2)).
+* [roam-toolkit](https://github.com/roam-unofficial/roam-toolkit) is being actively developed. Integration is under investigation ([#2](https://github.com/tntmarket/vimmyroam/issues/2)). Has fuzzy date creation, spaced repetition helpers.
+* [palashkaria's roam-modifiers](https://github.com/palashkaria/roam-modifiers). Has a cool live preview tooltip.
+* [Ryan Guill's Roam Experiments](https://greasyfork.org/en/scripts/402699-ryan-guill-s-roam-experiments-roamresearch-com). Has colored highlighting.
 
 ## Surfing Keys
 
