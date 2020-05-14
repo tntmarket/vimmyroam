@@ -18,14 +18,14 @@ Disclaimer: Does not include warranty
 | ------------- | ------------- |
 | Scroll up | k |
 | Scroll down | j |
-| Focus main panel | h |
-| Focus sidebar panel | l |
 | Page up | u |
 | Page down | d |
 | Scroll to top | g, g |
 | Scroll to bottom | G |
+| Focus main panel | h |
+| Focus sidebar panel | l |
 | Click something | f |
-| Edit block | f |
+| Edit block | e |
 | Unfocus | Esc |
 
 ### Click Something
