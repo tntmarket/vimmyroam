@@ -44,13 +44,25 @@
         }],
         // Navigation
         ['h', () => {
-            lastFocusedMainBlock = lastFocusedMainBlock || $(SELECTOR.article);
-            simulateClick(lastFocusedMainBlock.querySelector(SELECTOR.block), false);
+            if (lastFocusedMainBlock) {
+                simulateClick(lastFocusedMainBlock.querySelector(SELECTOR.block), false);
+            }
+
+            // focusing didn't work. Probably because lastFocusedMainBlock is lost after switching pages,
+            // or no block has been focused yet
+            if (document.activeElement === document.body) {
+                simulateClick($(SELECTOR.article).querySelector(SELECTOR.block), false);
+            }
         }],
         ['l', () => {
-            lastFocusedSideBlock = lastFocusedSideBlock || $(SELECTOR.sidebar);
             if (lastFocusedSideBlock) {
                 simulateClick(lastFocusedSideBlock.querySelector(SELECTOR.block), false);
+            }
+
+            // focusing didn't work. Probably because lastFocusedMainBlock is lost after switching pages,
+            // or no block has been focused yet
+            if (document.activeElement === document.body) {
+                simulateClick($(SELECTOR.sidebar).querySelector(SELECTOR.block), false);
             }
         }],
         ['e', () => {
@@ -234,11 +246,9 @@
         if($(SELECTOR.sidebar) && $(SELECTOR.sidebar).contains(document.activeElement)) {
             focusedPanel = 'SIDEBAR';
             lastFocusedSideBlock = document.activeElement.closest('.roam-block-container');
-            console.log(lastFocusedSideBlock);
         } else {
             focusedPanel = 'MAIN';
             lastFocusedMainBlock = document.activeElement.closest('.roam-block-container');
-            console.log(lastFocusedMainBlock);
         }
     }, true);
 
