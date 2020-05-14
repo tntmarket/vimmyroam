@@ -49,7 +49,6 @@ To develop a tampermonkey script using your IDE, use the `// @require file:///pa
 | [Spatial Navigation](https://github.com/tntmarket/vimmyroam/issues/5) | Like mouse keys, but snaps to blocks. [Vivaldi](https://help.vivaldi.com/article/spatial-navigation/) has this |
 | Extract page | Notion has this |
 | Rename link + page, without going to page itself | Like "rename" refactoring in IDEs, rename via the sidebar |
-| [Spatial Navigation](https://github.com/tntmarket/vimmyroam/issues/5) |  |
 | Navigate seamlessly between pages in sidebar | Up/down should focus the next page, instead of dead-ending on the current page |
 | Focus title | Dedicated shortcut for focusing the title |
 | Hide unreachable hints after keystrokes | None |
