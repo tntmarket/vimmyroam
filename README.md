@@ -1,3 +1,7 @@
+Note: I haven't worked on this, because I now use the vim keybindings [roam-toolkit](https://github.com/roam-unofficial/roam-toolkit) instead:
+
+https://www.youtube.com/watch?v=ZxtT05CjOyo&feature=youtu.be
+
 # vimmyroam
 
 The goal of this project is to be able to use Roam with only a keyboard.
