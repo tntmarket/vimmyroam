@@ -1,4 +1,4 @@
-Note: I haven't worked on this, because I now use the vim keybindings [roam-toolkit](https://github.com/roam-unofficial/roam-toolkit) instead:
+Note: I haven't worked on this, because I now use [roam-toolkit's](https://github.com/roam-unofficial/roam-toolkit) Vim Mode instead:
 
 https://www.youtube.com/watch?v=ZxtT05CjOyo&feature=youtu.be
 
